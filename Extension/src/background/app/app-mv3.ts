@@ -64,6 +64,7 @@ import {
     DocumentBlockService,
     localeDetect,
     PromoNotificationService,
+    filterUpdateService,
 } from '../services';
 import { SettingOption } from '../schema';
 import { getRunInfo } from '../utils';
@@ -266,6 +267,9 @@ export class App {
         await engine.start();
 
         appContext.set(AppContextKey.IsInit, true);
+
+        // In MV3 we need filters update service to update quick fixes filter.
+        filterUpdateService.init();
 
         await sendMessage({ type: MessageType.AppInitialized });
     }

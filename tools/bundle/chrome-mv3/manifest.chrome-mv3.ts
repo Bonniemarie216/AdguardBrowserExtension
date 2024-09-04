@@ -62,6 +62,7 @@ export const chromeMv3Manifest = {
         'declarativeNetRequest',
         'declarativeNetRequestFeedback',
         'scripting',
+        'alarms',
     ],
     'optional_permissions': [
         'privacy',

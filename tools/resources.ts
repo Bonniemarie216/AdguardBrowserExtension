@@ -46,7 +46,10 @@ const resources = async () => {
         console.log('OpenAI API key is not provided, skipping dangerous rules check');
     }
 
-    // converting filters to rulesets should be done after all filters are downloaded
+    // Since we use @adguard/dnr-rulesets, we can remove this conversion,
+    // because rulesets are already generated. But we have a bug there, where
+    // we hardcoded the path to the redirect files, so until this is not fixed,
+    // we need to keep this second conversion here.
     await convertFiltersToRulesets();
 };
 

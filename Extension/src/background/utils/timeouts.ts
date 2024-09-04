@@ -16,6 +16,8 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { timers } from '../timers';
+
 /**
  * Creates a promise with a timeout.
  *
@@ -45,7 +47,7 @@ export async function createPromiseWithTimeout<T>(
  */
 async function rejectAfterTimeout(timeoutMs: number, message: string): Promise<never> {
     return new Promise((resolve, reject) => {
-        setTimeout(() => {
+        timers.setTimeout(() => {
             reject(new Error(message));
         }, timeoutMs);
     });

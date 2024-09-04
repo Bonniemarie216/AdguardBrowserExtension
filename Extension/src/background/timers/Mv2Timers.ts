@@ -15,13 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
-export * from './main';
-export * from './common';
-export * from './custom';
-export * from './allowlist';
-export * from './userrules';
-export * from './update';
-export * from './categories';
-export * from './hit-stats';
-export * from './annoyances-consent';
-export * from './quick-fixes';
+
+import { TimersInterface } from './AbstractTimers';
+
+/**
+ * Implements timers interface for MV2 which uses window timers.
+ */
+class Mv2Timers implements TimersInterface {
+    setTimeout = (callback: () => void, timeout: number): number => {
+        return window.setTimeout(callback, timeout);
+    };
+
+    clearTimeout = (timerId: number): void => {
+        clearTimeout(timerId);
+    };
+
+    setInterval = (callback: () => void, interval: number): number => {
+        return window.setInterval(callback, interval);
+    };
+
+    clearInterval = (intervalId: number): void => {
+        clearInterval(intervalId);
+    };
+}
+
+export const timers = new Mv2Timers();

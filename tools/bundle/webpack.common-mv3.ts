@@ -45,8 +45,6 @@ export const genMv3CommonConfig = (browserConfig: BrowserConfig, isWatchMode: bo
             },
         },
         plugins: [
-            // FIXME: (v5.0) If there are no manifest-dependant components,
-            // remove this plugin.
             // Replace manifest-dependant components with the ones
             // for the current build target manifest version.
             new NormalModuleReplacementPlugin(
@@ -54,7 +52,7 @@ export const genMv3CommonConfig = (browserConfig: BrowserConfig, isWatchMode: bo
                 // be replaced for mv2 and mv3.
                 new RegExp(
                     `\\.\\/Abstract(${
-                        [].join('|') // TODO: Add the list of abstract components
+                        ['Timers'].join('|')
                     })`,
                 ),
                 ((resource: any) => {

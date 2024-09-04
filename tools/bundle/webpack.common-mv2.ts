@@ -106,8 +106,6 @@ export const genMv2CommonConfig = (browserConfig: BrowserConfig, isWatchMode = f
                 filename: `${SAFEBROWSING_OUTPUT}.html`,
                 chunks: [REACT_VENDOR_OUTPUT, SAFEBROWSING_OUTPUT],
             }),
-            // FIXME: (v5.0) If there are no manifest-dependant components,
-            // remove this plugin.
             // Replace manifest-dependant components with the ones
             // for the current build target manifest version.
             new NormalModuleReplacementPlugin(
@@ -115,7 +113,7 @@ export const genMv2CommonConfig = (browserConfig: BrowserConfig, isWatchMode = f
             // be replaced for mv2 and mv3.
                 new RegExp(
                     `\\.\\/Abstract(${
-                        [].join('|') // TODO: Add the list of abstract components
+                        ['Timers'].join('|')
                     })`,
                 ),
                 ((resource: any) => {

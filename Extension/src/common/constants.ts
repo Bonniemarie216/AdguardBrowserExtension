@@ -50,6 +50,7 @@ export enum AntiBannerFiltersId {
     SearchAndSelfPromoFilterId = 10,
     AnnoyancesCombinedFilterId = 14,
     UrlTrackingFilterId = 17,
+    QuickFixesFilterId = 24,
     AllowlistFilterId = 100,
     MobileAdsFilterId = 11,
 }

@@ -26,6 +26,7 @@ import {
 import { NotificationTextRecord } from '../../schema';
 import { LAST_NOTIFICATION_TIME_KEY, VIEWED_NOTIFICATIONS_KEY } from '../../../common/constants';
 import { I18n } from '../../utils';
+import { timers } from '../../timers';
 
 import { UiApi } from './main';
 
@@ -79,8 +80,7 @@ export class PromoNotificationApi {
         if (withDelay) {
             clearTimeout(this.timeoutId);
 
-            // eslint-disable-next-line no-restricted-globals
-            this.timeoutId = self.setTimeout(() => {
+            this.timeoutId = timers.setTimeout(() => {
                 this.setNotificationViewed(false);
             }, PromoNotificationApi.DELAY_MS);
 

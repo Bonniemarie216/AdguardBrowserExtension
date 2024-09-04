@@ -29,6 +29,7 @@ import {
     ForwardAction,
     ForwardFrom,
 } from '../../../common/forward';
+import { timers } from '../../timers';
 
 import { promoNotificationApi } from './promo-notification';
 
@@ -107,7 +108,7 @@ export class Toasts {
                 });
             }
         } catch (e) {
-            setTimeout(() => {
+            timers.setTimeout(() => {
                 this.showRuleLimitsAlert(triesCount + 1);
             }, Toasts.TRIES_TIMEOUT_MS);
         }
@@ -155,7 +156,7 @@ export class Toasts {
                 });
             }
         } catch (e) {
-            setTimeout(() => {
+            timers.setTimeout(() => {
                 this.showAlertMessage(title, text, triesCount + 1);
             }, Toasts.TRIES_TIMEOUT_MS);
         }
@@ -293,7 +294,7 @@ export class Toasts {
                 });
             }
         } catch (e) {
-            setTimeout(() => {
+            timers.setTimeout(() => {
                 this.showApplicationUpdatedPopup(currentVersion, previousVersion, triesCount + 1);
             }, Toasts.TRIES_TIMEOUT_MS);
         }

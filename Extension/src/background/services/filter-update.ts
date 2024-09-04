@@ -16,10 +16,11 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { FilterUpdateApi } from '../api';
+import { FilterUpdateApi, QuickFixesRulesApi } from '../api';
 import { browserStorage } from '../storages';
 import { isNumber } from '../../common/guards';
 import { logger } from '../../common/logger';
+import { timers } from '../timers';
 
 /**
  * Service for scheduling filters update checks.
@@ -36,16 +37,20 @@ export class FilterUpdateService {
     /**
      * Checking period
      * That timer should check every specified period of time if it is time to update filters.
+     *
+     * FIXME: Only for tests purposes, should be 5 minutes.
      */
-    private static readonly CHECK_PERIOD_MS = 1000 * 60 * 5; // 5 min
+    private static readonly CHECK_PERIOD_MS = 1000 * 5; // 5 second
 
     /**
      * Filter update period.
      * This means that filters should be updated if it was updated more than the specified value.
      * We set 1 hour because currently we generate patches for our filter once an hour and
      * for third-party filters once every 4 hours.
+     *
+     * FIXME: Only for tests purposes, should be 1 hour.
      */
-    private static readonly FILTER_UPDATE_PERIOD_MS = 1000 * 60 * 60; // 1 hour
+    private static readonly FILTER_UPDATE_PERIOD_MS = 1000 * 30; // 30 seconds
 
     /**
      * Stores scheduler timer id for checking update in every
@@ -72,7 +77,7 @@ export class FilterUpdateService {
      * should be updated with setTimeout which saved to {@link schedulerTimerId}.
      */
     private async update(): Promise<void> {
-        window.clearTimeout(this.schedulerTimerId);
+        timers.clearTimeout(this.schedulerTimerId);
 
         const prevCheckTimeMs = await browserStorage.get(FilterUpdateService.STORAGE_KEY);
 
@@ -86,7 +91,11 @@ export class FilterUpdateService {
 
         if (shouldCheckUpdates) {
             try {
-                await FilterUpdateApi.autoUpdateFilters();
+                if (__IS_MV3__) {
+                    await QuickFixesRulesApi.loadAndEnableQuickFixesRules(true);
+                } else {
+                    await FilterUpdateApi.autoUpdateFilters();
+                }
             } catch (e) {
                 logger.error('An error occurred during filters update:', e);
             }
@@ -96,7 +105,7 @@ export class FilterUpdateService {
             await browserStorage.set(FilterUpdateService.STORAGE_KEY, Date.now());
         }
 
-        this.schedulerTimerId = window.setTimeout(async () => {
+        this.schedulerTimerId = timers.setTimeout(async () => {
             await this.update();
         }, FilterUpdateService.CHECK_PERIOD_MS);
     }

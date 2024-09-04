@@ -312,7 +312,8 @@ export class FiltersApi {
 
         const filterIds = filterStateStorage.getLoadFilters();
 
-        // Ignore custom filters, user-rules and allowlist.
+        // Ignore custom filters, user-rules, allowlist
+        // and quick fixes filter (used only in MV3).
         const commonFiltersIds = filterIds.filter((id) => CommonFilterApi.isCommonFilter(id));
 
         try {
@@ -643,6 +644,31 @@ export class FiltersApi {
                 logger.error('Cannot remove obsoleted filter from storage due to: ', promise.reason);
             }
         });
+    }
+
+    /**
+     * Partially updates metadata and i18n metadata for one specified filter.
+     *
+     * @param filterId Filter id.
+     */
+    public static async partialUpdateMetadataFromRemoteForFilter(filterId: number): Promise<void> {
+        const i18nMetadata = await network.downloadI18nMetadataFromBackend();
+        if (!i18nMetadata.filters[filterId]) {
+            return;
+        }
+        const oldI18nMetadata = i18nMetadataStorage.getData();
+        oldI18nMetadata.filters[filterId] = i18nMetadata.filters[filterId];
+        i18nMetadataStorage.setData(oldI18nMetadata);
+
+        const metadata = await network.downloadMetadataFromBackend();
+        if (!metadata.filters[filterId]) {
+            return;
+        }
+        const oldMetadata = metadataStorage.getData();
+        oldMetadata.filters[filterId] = metadata.filters[filterId];
+        metadataStorage.setData(oldMetadata);
+
+        FiltersApi.updateMetadataWithI18nMetadata(metadata, i18nMetadata);
     }
 
     /**

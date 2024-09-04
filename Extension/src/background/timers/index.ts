@@ -15,13 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
-export * from './main';
-export * from './common';
-export * from './custom';
-export * from './allowlist';
-export * from './userrules';
-export * from './update';
-export * from './categories';
-export * from './hit-stats';
-export * from './annoyances-consent';
-export * from './quick-fixes';
+
+// !IMPORTANT!
+// export './AbstractTimers' will be replaced during webpack compilation
+// with NormalModuleReplacementPlugin to proper implementation
+// from './Mv2Timers' or './Mv3Timers'
+export { timers } from './AbstractTimers';
