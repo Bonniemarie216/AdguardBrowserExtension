@@ -59,7 +59,7 @@ export class QuickFixesRulesApi {
         filterStateStorage.enableFilters([AntiBannerFiltersId.QuickFixesFilterId]);
 
         if (reloadEngine) {
-            engine.update(true);
+            engine.update();
         }
     }
 

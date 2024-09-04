@@ -177,7 +177,7 @@ export class Engine implements TsWebExtensionEngine {
             Object.assign(userrules, await UserRulesApi.getUserRules());
         }
 
-        const hotFixRules: Configuration['quickFixesRules'] = {
+        const quickFixesRules: Configuration['quickFixesRules'] = {
             ...emptyPreprocessedFilterList,
             /**
              * Quick fixes are always trusted because it is the one of
@@ -187,7 +187,7 @@ export class Engine implements TsWebExtensionEngine {
         };
 
         if (QuickFixesRulesApi.isEnabled()) {
-            Object.assign(hotFixRules, await QuickFixesRulesApi.getQuickFixesRules());
+            Object.assign(quickFixesRules, await QuickFixesRulesApi.getQuickFixesRules());
         }
 
         const customFiltersWithMetadata = FiltersApi.getEnabledFiltersWithMetadata()
