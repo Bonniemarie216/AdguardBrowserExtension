@@ -238,8 +238,8 @@ export class CommonFilterApi {
             AntiBannerFiltersId.SearchAndSelfPromoFilterId,
         ];
 
-        // For MV3 version we have QuickFixes filter not have local version and
-        // always should be updated from the server.
+        // For MV3 version we have QuickFixes filter which does not have local
+        // version and always should be updated from the server.
         if (__IS_MV3__) {
             filterIds.push(AntiBannerFiltersId.QuickFixesFilterId);
         }
