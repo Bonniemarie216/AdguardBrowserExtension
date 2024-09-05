@@ -193,16 +193,15 @@ export class Engine implements TsWebExtensionEngine {
         const customFiltersWithMetadata = FiltersApi.getEnabledFiltersWithMetadata()
             .filter((f) => CustomFilterApi.isCustomFilterMetadata(f));
 
-        const customFilters = await Promise.all(customFiltersWithMetadata
-            .map(async ({ filterId, trusted }) => {
-                const preprocessedFilterList = await FiltersStorage.getAllFilterData(filterId);
+        const customFilters = await Promise.all(customFiltersWithMetadata.map(async ({ filterId, trusted }) => {
+            const preprocessedFilterList = await FiltersStorage.getAllFilterData(filterId);
 
-                return {
-                    filterId,
-                    trusted,
-                    ...(preprocessedFilterList || emptyPreprocessedFilterList),
-                };
-            }));
+            return {
+                filterId,
+                trusted,
+                ...(preprocessedFilterList || emptyPreprocessedFilterList),
+            };
+        }));
 
         return {
             declarativeLogEnabled: filteringLogApi.isOpen(),

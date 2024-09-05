@@ -34,14 +34,16 @@ import { CommonFilterApi } from './common';
  */
 export class QuickFixesRulesApi {
     /**
-     * Partially updates metadata for quick fixes filter, then load newest rules
-     * from the server without patches (because filter is quite small) and
-     * enables it.
+     * Partially updates metadata for quick fixes filter (because otherwise we
+     * will update metadata for all filters, but filters will only be updated
+     * with update of entire extension and we get mismatch of their actual
+     * version and metadata versions), then load newest rules from the server
+     * without patches (because filter is quite small) and enables it.
      *
      * @param reloadEngine If true, then engine will be reloaded after enabling.
      */
     public static async loadAndEnableQuickFixesRules(reloadEngine = false): Promise<void> {
-        FiltersApi.partialUpdateMetadataFromRemoteForFilter(AntiBannerFiltersId.QuickFixesFilterId);
+        await FiltersApi.partialUpdateMetadataFromRemoteForFilter(AntiBannerFiltersId.QuickFixesFilterId);
 
         await CommonFilterApi.loadFilterRulesFromBackend(
             {
@@ -59,7 +61,7 @@ export class QuickFixesRulesApi {
         filterStateStorage.enableFilters([AntiBannerFiltersId.QuickFixesFilterId]);
 
         if (reloadEngine) {
-            engine.update();
+            await engine.update();
         }
     }
 

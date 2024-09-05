@@ -34,7 +34,7 @@ class AbstractTimers implements TimersInterface {
      * Throws an error if this class is used.
      */
     constructor() {
-        throw new Error('Seems like webpack didn\'t inject proper timers');
+        throw new Error('Webpack did not inject proper manifest-dependant implementation of timers.');
     }
 
     // eslint-disable-next-line jsdoc/require-jsdoc, class-methods-use-this, @typescript-eslint/no-unused-vars

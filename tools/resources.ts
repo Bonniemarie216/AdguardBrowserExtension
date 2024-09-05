@@ -17,7 +17,6 @@
  * along with AdGuard Browser Extension. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { convertFiltersToRulesets } from './resources/build-rule-sets';
 import { findDangerousRules } from './resources/dangerous-rules';
 import { downloadFilters } from './resources/download-filters';
 import { updateLocalScriptRules } from './resources/update-local-script-rules';
@@ -45,12 +44,6 @@ const resources = async () => {
     } else {
         console.log('OpenAI API key is not provided, skipping dangerous rules check');
     }
-
-    // Since we use @adguard/dnr-rulesets, we can remove this conversion,
-    // because rulesets are already generated. But we have a bug there, where
-    // we hardcoded the path to the redirect files, so until this is not fixed,
-    // we need to keep this second conversion here.
-    await convertFiltersToRulesets();
 };
 
 (async () => {

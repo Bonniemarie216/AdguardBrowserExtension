@@ -132,7 +132,8 @@ export class CommonFilterApi {
      *
      * **IMPORTANT: `forceRemote` can't be used for MV3** except Quick Fixes
      * filter, because we update filters, their metadata, and rulesets with
-     * whole extension update, becuase static ruleset cannot be updated dynamically.
+     * whole extension update, because static ruleset cannot be updated
+     * dynamically.
      * To prevent mismatch filters and rulesets version - we do not support load
      * them from remote, except Quick Fixes Filter, because it will applied
      * dynamically.
