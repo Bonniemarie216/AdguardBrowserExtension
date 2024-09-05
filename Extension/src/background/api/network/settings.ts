@@ -41,8 +41,10 @@ export class NetworkSettings {
      * Default base url for downloading filter rules.
      *
      * @private
+     *
+     * FIXME: Remove this
      */
-    private readonly DEFAULT_FILTER_RULES_BASE_URL = 'https://filters.adtidy.org/extension';
+    private readonly DEFAULT_FILTER_RULES_BASE_URL = 'http://localhost:8080/platforms/extension';
 
     /**
      * By this key, qa can set the base url for filter rules through the local storage for testing
