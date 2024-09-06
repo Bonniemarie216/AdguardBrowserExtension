@@ -92,7 +92,7 @@ export class FilterUpdateService {
         if (shouldCheckUpdates) {
             try {
                 if (__IS_MV3__) {
-                    await QuickFixesRulesApi.loadAndEnableQuickFixesRules(true);
+                    await QuickFixesRulesApi.updateQuickFixesFilter();
                 } else {
                     await FilterUpdateApi.autoUpdateFilters();
                 }

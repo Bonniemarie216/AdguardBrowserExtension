@@ -39,10 +39,21 @@ export class QuickFixesRulesApi {
      * with update of entire extension and we get mismatch of their actual
      * version and metadata versions), then load newest rules from the server
      * without patches (because filter is quite small) and enables it.
-     *
-     * @param reloadEngine If true, then engine will be reloaded after enabling.
      */
-    public static async loadAndEnableQuickFixesRules(reloadEngine = false): Promise<void> {
+    public static async loadAndEnableQuickFixesRules(): Promise<void> {
+        await this.loadQuickFixesRules();
+
+        filterStateStorage.enableFilters([AntiBannerFiltersId.QuickFixesFilterId]);
+    }
+
+    /**
+     * Partially updates metadata for quick fixes filter (because otherwise we
+     * will update metadata for all filters, but filters will only be updated
+     * with update of entire extension and we get mismatch of their actual
+     * version and metadata versions), then load newest rules from the server
+     * without patches (because filter is quite small).
+     */
+    public static async loadQuickFixesRules(): Promise<void> {
         await FiltersApi.partialUpdateMetadataFromRemoteForFilter(AntiBannerFiltersId.QuickFixesFilterId);
 
         await CommonFilterApi.loadFilterRulesFromBackend(
@@ -57,10 +68,15 @@ export class QuickFixesRulesApi {
             },
             true,
         );
+    }
 
-        filterStateStorage.enableFilters([AntiBannerFiltersId.QuickFixesFilterId]);
+    /**
+     * Updates quick fixes filter and if it is enabled, then updates engine.
+     */
+    public static async updateQuickFixesFilter(): Promise<void> {
+        await this.loadQuickFixesRules();
 
-        if (reloadEngine) {
+        if (this.isEnabled()) {
             await engine.update();
         }
     }

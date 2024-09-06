@@ -238,12 +238,6 @@ export class CommonFilterApi {
             AntiBannerFiltersId.SearchAndSelfPromoFilterId,
         ];
 
-        // For MV3 version we have QuickFixes filter which does not have local
-        // version and always should be updated from the server.
-        if (__IS_MV3__) {
-            filterIds.push(AntiBannerFiltersId.QuickFixesFilterId);
-        }
-
         if (UserAgent.isAndroid) {
             filterIds.push(AntiBannerFiltersId.MobileAdsFilterId);
         }
@@ -256,6 +250,16 @@ export class CommonFilterApi {
         // On the first run, we update the common filters from the backend.
         const remote = !__IS_MV3__;
         await FiltersApi.loadAndEnableFilters(filterIds, remote, enableUntouchedGroups);
+
+        // For MV3 version we have QuickFixes filter which does not have local
+        // version and always should be updated from the server.
+        if (__IS_MV3__) {
+            await FiltersApi.loadAndEnableFilters(
+                [AntiBannerFiltersId.QuickFixesFilterId],
+                true, // install from remote.
+                enableUntouchedGroups,
+            );
+        }
     }
 
     /**
