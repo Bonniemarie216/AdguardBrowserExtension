@@ -107,7 +107,7 @@
     "@adguard/tsurlfilter": "3.0.1",
     "@adguard/tswebextension": "2.0.1",
     "@xstate/react": "^1.5.1",
-    "ace-builds": "^1.8.1",
+    "ace-builds": "^1.36.2",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "c3": "0.4.15",
